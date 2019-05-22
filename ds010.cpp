@@ -23,6 +23,15 @@ ElemType Pop(Stack PtrS)
 	return '\0';
 	return PtrS->data[(PtrS->top)--];
 }
+int f(char c)
+{
+	if(c=='+'||c=='-')
+	return 1;
+	else if(c=='*'||c=='/')
+	return 2;
+	else if(c=='(')
+	return 0;
+}
 int main()
 {
 	Stack PtrS;
@@ -39,7 +48,36 @@ int main()
 		else if(str[i]=='(')
 		Push(str[i],PtrS);
 		else if(str[i]==')')
-		
+		{
+			char c=Pop(PtrS);
+			while(c!='(')
+			{
+				cout<<c;
+				c=Pop(PtrS);
+			}
+		}
+		else
+		{
+			char TopElem;
+			TopElem=PtrS->data[PtrS->top];
+			if(f(str[i])>f(TopElem))
+			Push(str[i],PtrS);
+			else
+			{
+				cout<<Pop(PtrS);
+				TopElem=PtrS->data[PtrS->top];
+				while(f(str[i])<=f(TopElem))
+				{
+					cout<<Pop(PtrS);
+				}
+				Push(str[i],PtrS);
+			}
+		}
 		i++;
 	}
+	while(PtrS->top!=-1)
+	{
+		cout<<Pop(PtrS);
+	}
+
 }
